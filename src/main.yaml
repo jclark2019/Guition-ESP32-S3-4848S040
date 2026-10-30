@@ -5,7 +5,7 @@ packages:
   devices: !include common/widgets/devices.yaml
   climate: !include widgets/climate/climate.yaml
   # media_player: !include widgets/media_player/media_player.yaml
-  vacuum: !include widgets/vacuum/vacuum.yaml
+  #vacuum: !include widgets/vacuum/vacuum.yaml
   # cover: !include widgets/cover/config.yaml
   # boiler: !include widgets/boiler/config.yaml
   # alarm_panel: !include widgets/alarm_panel/config.yaml
@@ -114,7 +114,7 @@ ota:
   - platform: esphome
     id: ota_state
     password: !secret display_ota
-    on_begin: 
+    on_begin:
       - logger.log: "OTA Start"
       - light.turn_on: display_backlight
       - lambda: "id(display_backlight).loop();"
@@ -135,7 +135,7 @@ ota:
       - lambda: "id(lvgl_component).loop();"
       - logger.log: "OTA widget shown"
 
-    on_progress: 
+    on_progress:
       - lvgl.bar.update:
           id: ota_bar_value
           value: !lambda return (int)x;
@@ -246,7 +246,7 @@ lvgl:
                 bg_color: color_steel_blue
                 indicator:
                   bg_color: color_misty_blue
-  
+
 
 light:
   # Backlight
@@ -338,12 +338,12 @@ display:
       mirror_x: false
       mirror_y: false
     cs_pin: 39
-      # reset not defined 
+      # reset not defined
     de_pin: 18
     hsync_pin: 16
     vsync_pin: 17
     pclk_pin: 21
-    init_sequence: 
+    init_sequence:
       - 1
       - [0xFF, 0x77, 0x01, 0x00, 0x00, 0x10] # CMD2_BKSEL_BK0
       - [0xCD, 0x00] # disable MDT flag
@@ -362,7 +362,7 @@ display:
         - 3          # G2
         - 46         # G3
         - 9          # G4
-        - 10         # G5 
+        - 10         # G5
       blue:
         - 4          # B1
         - 5          # B2
@@ -378,12 +378,12 @@ display:
 #           static uint32_t min_stack = UINT32_MAX;
 #           UBaseType_t current = uxTaskGetStackHighWaterMark(NULL);
 #           uint32_t bytes = current * sizeof(StackType_t);
-          
+
 #           if (bytes < min_stack) {
 #             min_stack = bytes;
 #             ESP_LOGW("stack", "New minimum stack: %d bytes", min_stack);
 #           }
-          
+
 #           if (bytes < 512) {
 #             ESP_LOGE("stack", "CRITICAL: Only %d bytes left!", bytes);
 #           }
@@ -396,28 +396,28 @@ display:
 #           ESP_LOGI("memory", "Free heap: %d bytes", esp_get_free_heap_size());
 #           ESP_LOGI("memory", "Free internal heap: %d bytes", esp_get_free_internal_heap_size());
 #           ESP_LOGI("memory", "Min free heap: %d bytes", esp_get_minimum_free_heap_size());
-          
+
 #           // Детальная статистика кучи
 #           multi_heap_info_t info;
 #           heap_caps_get_info(&info, MALLOC_CAP_INTERNAL);
-#           ESP_LOGI("memory", "SRAM total: %d, free: %d, largest_free: %d", 
+#           ESP_LOGI("memory", "SRAM total: %d, free: %d, largest_free: %d",
 #                    info.total_free_bytes + info.total_allocated_bytes,
-#                    info.total_free_bytes, 
+#                    info.total_free_bytes,
 #                    info.largest_free_block);
-          
+
 #           // Статистика по PSRAM
 #           heap_caps_get_info(&info, MALLOC_CAP_SPIRAM);
-#           ESP_LOGI("memory", "PSRAM total: %d, free: %d, largest_free: %d", 
+#           ESP_LOGI("memory", "PSRAM total: %d, free: %d, largest_free: %d",
 #                    info.total_free_bytes + info.total_allocated_bytes,
-#                    info.total_free_bytes, 
+#                    info.total_free_bytes,
 #                    info.largest_free_block);
 
 #       - lambda: |-
-#           ESP_LOGI("stack", "Main task free: %d bytes", 
+#           ESP_LOGI("stack", "Main task free: %d bytes",
 #                    uxTaskGetStackHighWaterMark(xTaskGetHandle("loopTask")));
-#           ESP_LOGI("stack", "System event free: %d bytes", 
+#           ESP_LOGI("stack", "System event free: %d bytes",
 #                    uxTaskGetStackHighWaterMark(xTaskGetHandle("sys_evt")));
-#           ESP_LOGI("stack", "Timer task free: %d bytes", 
+#           ESP_LOGI("stack", "Timer task free: %d bytes",
 #                    uxTaskGetStackHighWaterMark(xTaskGetHandle("esp_timer")));
 
 #       - lambda: |-
